@@ -32,7 +32,7 @@ export class Router extends Events {
       this.reactRoutes = reactRoutes;
       this.routes = routes;
       this.flattenRoutes = flattenRoutes;
-      console.log('route changed: ', { routesConfig, reactRoutes, routes, flattenRoutes });
+      // console.log('route changed: ', { routesConfig, reactRoutes, routes, flattenRoutes });
     });
     return () => {
       this.remove(Router.EVENT_NAME__onChangeRoutesConfig, sub);

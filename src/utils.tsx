@@ -67,9 +67,11 @@ export function formatRoutes(routesConfig: RouteConfig[], parent?: RouteConfig):
       };
       if (routeItem.children) {
         ret.children = _formatRoutes(routeItem.children ?? [], ret);
-      } else {
-        flattenRoutes.set(pathname, ret);
       }
+      flattenRoutes.set(pathname, {
+        ...flattenRoutes.get(pathname), // 可能有redirect
+        ...ret,
+      });
       return ret;
     });
   }

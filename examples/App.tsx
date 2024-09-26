@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useLocation, useRoutes } from 'react-router-dom';
 import { router } from './router';
 
+console.log('router: ', router);
+
 const App = () => {
   const location = useLocation();
 
