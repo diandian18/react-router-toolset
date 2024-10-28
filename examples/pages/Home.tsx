@@ -57,6 +57,12 @@ const Home = () => {
         const url = router.getPathname(nweRoutes[nweRoutes.length - 1][0]);
         history.push(url);
       }}>Jump to &quot;{ Array.from(flattenRoutes)[Array.from(flattenRoutes).length - 1][0] }&quot;</button>
+      <button onClick={() => {
+        router.setSiblings('/home/index', (routesConfig) => {
+          const newRoute = genNewRoute();
+          routesConfig.push(newRoute);
+        });
+      }}>router.setSiblings</button>
     </div>
   );
 };

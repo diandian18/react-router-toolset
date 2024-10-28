@@ -130,7 +130,7 @@ export function findroutesConfigItem(routesConfig: RouteConfig[], routePath: str
     for (let i = 0; i < routesConfig.length; i++) {
       const item = routesConfig[i];
       computedPath.push(item.path === '/' ? '' : item.path);
-      if (computedPath.join('/') === routePath) {
+      if (computedPath.join('/') === routePath && !item.redirect) {
         return item;
       }
       if (item.children && item.children.length > 0) {
