@@ -1,5 +1,5 @@
 // import { history, usePathname } from '@/index';
-import { history, usePathname } from '../../dist-lib/react-router-toolset';
+import { history, usePathname } from '@@/router';
 import Logout from './Logout';
 
 const Profile = () => {

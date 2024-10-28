@@ -1,5 +1,4 @@
-// import { history, HistoryRouter } from '@/index';
-import { history, HistoryRouter } from '../dist-lib/react-router-toolset';
+import { history, HistoryRouter } from '@@/router';
 import App from './App';
 import { createRoot } from 'react-dom/client';
 

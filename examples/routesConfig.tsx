@@ -1,5 +1,4 @@
-// import { RouteConfig } from '@/index';
-import { RouteConfig } from '../dist-lib/react-router-toolset';
+import { RouteConfig } from '@@/router';
 
 export const routesConfig: RouteConfig[] = [
   {
@@ -10,10 +9,12 @@ export const routesConfig: RouteConfig[] = [
   },
   {
     path: '/:tenantId',
+    // path: '/',
     redirect: '/app/home',
   },
   {
     path: '/:tenantId',
+    // path: '/',
     component: () => import('@@/pages/Layout'),
     flatten: true,
     children: [

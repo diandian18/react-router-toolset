@@ -61,10 +61,10 @@ export class Router extends Events {
    * @param cb 参数routesConfigs为pathname的兄弟路由
    * @param cb 参数parentRoute为pathname的父路由
    */
-  setSiblings(
+  setSiblings = (
     pathname: string | ((routesConfig: RouteConfig[], parentRoute: RouteConfig) => void),
     cb?: (routesConfig: RouteConfig[], parentRoute: RouteConfig) => void,
-  ) {
+  ) => {
     const _pathname = typeof pathname === 'string' ? pathname : location.pathname;
     const routePath = this.getRoutePath(_pathname);
     const parentRoute = this.flattenRoutes.get(routePath)?.parent;
@@ -81,7 +81,7 @@ export class Router extends Events {
    * router的path里可能有:id
    * @example '/123/home' -> '/:id/home'
    */
-  getRoutePath(pathname: string) {
+  getRoutePath = (pathname: string) => {
     const matchedRoutes = matchRoutes(this.reactRoutes, pathname);
     const routePath = _getRoutePathBymatchedRoutes(matchedRoutes);
     return routePath;
@@ -91,7 +91,7 @@ export class Router extends Events {
    * 替换掉目标routePath中的动态路由参数如":id"
    * @example '/:id/home' -> '/123/home'
    */
-  getPathname(routePath: string) {
+  getPathname = (routePath: string) => {
     const curRoutePath = this.getRoutePath(location.pathname);
     const { params } = matchPath({ path: curRoutePath }, location.pathname) ?? {};
     const pathname = getPathnameByRoutePathAndParams(routePath, params);

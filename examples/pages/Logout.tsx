@@ -1,5 +1,4 @@
-// import { history } from '@/index';
-import { history } from '../../dist-lib/react-router-toolset';
+import { history } from '@@/router';
 
 const Logout = () => {
   function onClick() {

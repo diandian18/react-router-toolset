@@ -129,7 +129,7 @@ export function findroutesConfigItem(routesConfig: RouteConfig[], routePath: str
   function loopTree(routesConfig: RouteConfig[], routePath: string): RouteConfig | null {
     for (let i = 0; i < routesConfig.length; i++) {
       const item = routesConfig[i];
-      computedPath.push(item.path);
+      computedPath.push(item.path === '/' ? '' : item.path);
       if (computedPath.join('/') === routePath) {
         return item;
       }

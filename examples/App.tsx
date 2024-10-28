@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { useLocation, useRoutes } from 'react-router-dom';
-import { router } from './router';
+import { router, useRouter } from '@@/router';
 
 console.log('router: ', router);
 
 const App = () => {
   const location = useLocation();
+  const { reactRoutes } = useRouter(router);
 
   useEffect(() => {
     const routePath = router.getRoutePath(location.pathname);
     console.log(routePath);
   }, [location.pathname]);
-  
-  
-  const element = useRoutes(router.reactRoutes);
+
+  const element = useRoutes(reactRoutes);
   return element;
 };
 
