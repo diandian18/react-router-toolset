@@ -4,7 +4,6 @@ import { findroutesConfigItem, formatRoutes, generateReactRoutes, getPathnameByR
 import { useEffect, useMemo, useState } from 'react';
 import Events from '@zhangsai/events';
 import { produce } from 'immer';
-import type { AgnosticRouteMatch } from '@remix-run/router';
 
 export class Router extends Events {
   static EVENT_NAME__onChangeRoutesConfig: 'EVENT_NAME__onChangeRoutesConfig';
@@ -83,7 +82,11 @@ export class Router extends Events {
    */
   getRoutePath = (pathname: string) => {
     const matchedRoutes = matchRoutes(this.reactRoutes, pathname);
-    const routePath = _getRoutePathBymatchedRoutes(matchedRoutes);
+    // _getRoutePathBymatchedRoutes
+    const routePath = matchedRoutes?.map(item => {
+      const reactRoutePath = item.route.path === '/' ? '' : item.route.path;
+      return reactRoutePath;
+    }).join('/').replace(/\/$/, '') ?? '';
     return routePath;
   }
   /**
@@ -97,13 +100,6 @@ export class Router extends Events {
     const pathname = getPathnameByRoutePathAndParams(routePath, params);
     return pathname;
   }
-}
-
-function _getRoutePathBymatchedRoutes(matchedRoutes: AgnosticRouteMatch<string, RouteObject>[] | null) {
-  return matchedRoutes?.map(item => {
-    const reactRoutePath = item.route.path === '/' ? '' : item.route.path;
-    return reactRoutePath;
-  }).join('/').replace(/\/$/, '') ?? '';
 }
 
 /**

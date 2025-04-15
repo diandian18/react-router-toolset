@@ -1,7 +1,7 @@
-import loadable from '@loadable/component';
+// import loadable from '@loadable/component';
 import type { RouteObject } from 'react-router-dom';
 import { Navigate, useParams } from 'react-router-dom';
-import { ReactNode } from 'react';
+import { ReactNode, lazy } from 'react';
 import type { RouteConfig } from './types';
 
 /**
@@ -17,7 +17,7 @@ export function generateReactRoutes(configs?: RouteConfig[]) {
       element = <Navigate to={redirect} />;
     } else {
       if (component) {
-        const LoadedElement = loadable(component!);
+        const LoadedElement = lazy(component!);
         element = <LoadedElement />;
       }
     }

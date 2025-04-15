@@ -8,13 +8,13 @@ export const routesConfig: RouteConfig[] = [
     hidden: true,
   },
   {
-    // path: '/:tenantId',
-    path: '/',
+    path: '/:tenantId',
+    // path: '/',
     redirect: '/app/home',
   },
   {
-    // path: '/:tenantId',
-    path: '/',
+    path: '/:tenantId',
+    // path: '/',
     component: () => import('@@/pages/Layout'),
     flatten: true,
     children: [
