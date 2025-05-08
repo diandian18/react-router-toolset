@@ -1,5 +1,5 @@
 import path from 'path';
-import { defineConfig, UserConfigExport } from 'vite';
+import { defineConfig, UserConfigExport, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import terser from '@rollup/plugin-terser';
@@ -26,6 +26,7 @@ interface ViteParams {
 
 export default (viteParams: ViteParams) => {
   const { mode } = viteParams;
+  const env = loadEnv(mode, process.cwd());
   // console.log(mode); // { mode: 'localhost', command: 'serve', ssrBuild: false }
   const config: UserConfigExport = {
     css: {
@@ -51,6 +52,7 @@ export default (viteParams: ViteParams) => {
     esbuild: {
       target: 'chrome65',
     },
+    base: env.VITE_BASENAME,
     build: {
       target: 'es2015',
     },

@@ -1,12 +1,11 @@
-// import { history, usePathname } from '@/index';
-import { history, usePathname } from '@@/router';
+import { router, usePathname } from '@@/router';
 import Logout from './Logout';
 
 const Profile = () => {
   const pathname = usePathname();
   function onClick() {
     const url = pathname('/:tenantId/home');
-    history.push(url);
+    router.push(url);
   }
   return (
     <div>

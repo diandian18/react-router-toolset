@@ -1,4 +1,4 @@
-import { router, history, useRouter } from '@@/router';
+import { router, useRouter } from '@@/router';
 import Logout from './Logout';
 
 /**
@@ -31,7 +31,7 @@ const Home = () => {
 
   function onClick() {
     const url = router.getPathname('/:tenantId/home/profile');
-    history.push(url);
+    router.push(url);
   }
 
   function onClickAddTail() {
@@ -55,7 +55,7 @@ const Home = () => {
       <button onClick={() => {
         const nweRoutes = Array.from(flattenRoutes);
         const url = router.getPathname(nweRoutes[nweRoutes.length - 1][0]);
-        history.push(url);
+        router.push(url);
       }}>Jump to &quot;{ Array.from(flattenRoutes)[Array.from(flattenRoutes).length - 1][0] }&quot;</button>
       <button onClick={() => {
         router.setSiblings('/home/index', (routesConfig) => {

@@ -1,8 +1,8 @@
-import { history } from '@@/router';
+import { router } from '@@/router';
 
 const Logout = () => {
   function onClick() {
-    history.push('/login');
+    router.push('/login');
   }
   
   return (

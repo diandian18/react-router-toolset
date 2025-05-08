@@ -4,6 +4,17 @@ import { findroutesConfigItem, formatRoutes, generateReactRoutes, getPathnameByR
 import { useEffect, useMemo, useState } from 'react';
 import Events from '@zhangsai/events';
 import { produce } from 'immer';
+import history from '@/history';
+import type { To } from 'history';
+
+interface RouterOptions {
+  /**
+   * 开发或生产环境服务的公共基础路径，
+   * 无子路径可不填，默认值 '/'
+   * @example '/subpath'
+   */
+  basename?: string;
+}
 
 export class Router extends Events {
   static EVENT_NAME__onChangeRoutesConfig: 'EVENT_NAME__onChangeRoutesConfig';
@@ -11,15 +22,28 @@ export class Router extends Events {
   reactRoutes: RouteObject[] = [];
   routes: RouteConfig[] = [];
   flattenRoutes: Map<string, RouteConfig> = new Map();
-  constructor(routesConfig: RouteConfig[]) {
+  basename: string = '/';
+
+  constructor(routesConfig: RouteConfig[], options?: RouterOptions) {
     super();
     this.routesConfig = routesConfig;
     this.reactRoutes = generateReactRoutes(routesConfig);
     const { routes, flattenRoutes } = formatRoutes(routesConfig);
     this.routes = routes;
     this.flattenRoutes = flattenRoutes;
+    this.basename = options?.basename || '/';
 
     this._onChangeRoutesConfig();
+  }
+  /**
+   * 获取当前路由的pathname
+   * 会去除basename（若有）
+   * @example '/home'
+   */
+  get pathname() {
+    const reg = new RegExp(`^${this.basename}`);
+    const fullPath = history.location.pathname;
+    return this.basename === '/' ? fullPath : fullPath.replace(reg, '') || '/';
   }
   /**
    * 监听this.routesConfigs变化，并更新reactRoutes/routes/flattenRoutes
@@ -43,7 +67,7 @@ export class Router extends Events {
    * @param cb 参数为pathname对应的路由
    */
   setItem = (pathname: string | ((routesConfigItem: RouteConfig) => void), cb?: (routesConfigItem: RouteConfig) => void) => {
-    const _pathname = typeof pathname === 'string' ? pathname : location.pathname;
+    const _pathname = typeof pathname === 'string' ? pathname : this.pathname;
     const routePath = this.getRoutePath(_pathname);
     const newRoutesConfigs = produce(this.routesConfig, draft => {
       const routesConfigItem = findroutesConfigItem(draft, routePath);
@@ -64,7 +88,7 @@ export class Router extends Events {
     pathname: string | ((routesConfig: RouteConfig[], parentRoute: RouteConfig) => void),
     cb?: (routesConfig: RouteConfig[], parentRoute: RouteConfig) => void,
   ) => {
-    const _pathname = typeof pathname === 'string' ? pathname : location.pathname;
+    const _pathname = typeof pathname === 'string' ? pathname : this.pathname;
     const routePath = this.getRoutePath(_pathname);
     const parentRoute = this.flattenRoutes.get(routePath)?.parent;
     if (parentRoute?.pathname) {
@@ -95,10 +119,55 @@ export class Router extends Events {
    * @example '/:id/home' -> '/123/home'
    */
   getPathname = (routePath: string) => {
-    const curRoutePath = this.getRoutePath(location.pathname);
-    const { params } = matchPath({ path: curRoutePath }, location.pathname) ?? {};
+    const curRoutePath = this.getRoutePath(this.pathname);
+    const { params } = matchPath({ path: curRoutePath }, this.pathname) ?? {};
     const pathname = getPathnameByRoutePathAndParams(routePath, params);
     return pathname;
+  }
+  /**
+   * 拼接basename和pathname
+   */
+  getFullPath(pathname: string) {
+    return this.basename === '/' ? pathname : `${this.basename}${pathname}`;
+  }
+  /**
+   * 包含basename的history.push
+   */
+  push(to: To, state?: any) {
+    if (typeof to === 'string') {
+      history.push(this.getFullPath(to), state);
+    } else {
+      history.push({
+        ...to,
+        pathname: this.getFullPath(to.pathname ?? ''),
+      }, state);
+    }
+  }
+  /**
+   * 包含basename的history.replace
+   */
+  replace(to: To, state?: any) {
+    if (typeof to === 'string') {
+      history.replace(this.getFullPath(to), state);
+    } else {
+      history.replace({
+        ...to,
+        pathname: this.getFullPath(to.pathname ?? ''),
+      }, state);
+    }
+  }
+  /**
+   * 包含basename的history.createHref
+   */
+  createHref(to: To): string {
+    if (typeof to === 'string') {
+      return history.createHref(this.getFullPath(to));
+    } else {
+      return history.createHref({
+        ...to,
+        pathname: this.getFullPath(to.pathname ?? ''),
+      });
+    }
   }
 }
 

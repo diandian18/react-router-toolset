@@ -9,8 +9,9 @@ export const routesConfig: RouteConfig[] = [
   },
   {
     path: '/:tenantId',
-    // path: '/',
     redirect: '/app/home',
+    // path: '/',
+    // redirect: '/home',
   },
   {
     path: '/:tenantId',
