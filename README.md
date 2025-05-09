@@ -14,13 +14,6 @@ Toolset for react-router
 
 [📒Documentation](https://doc.react-antd-console.site/development/route.html)
 
-## Who are using?
-
-| Name                          |              Description              |                    Link                    | Github                                             |
-| ----------------------------- | :-----------------------------------: | :----------------------------------------: | :------------------------------------------------- |
-| diandian18/react-antd-console | Frontend solution for admin dashboard | <https://template.react-antd-console.site> | <https://github.com/diandian18/react-antd-console> |
-| Rascal-Coder/xpress           |                   -                   |        <https://xpress.ras-cal.cc>         | <https://github.com/Rascal-Coder/xpress>           |
-
 ## Install
 
 ```shell
@@ -102,3 +95,10 @@ const basename = '/subpath';
 // router contains reactRoutes、routes、flattenRoutes
 const router = new Router(routesConfig, basename);
 ```
+
+## Who are using?
+
+| Name                          |              Description              |                    Link                    | Github                                             |
+| ----------------------------- | :-----------------------------------: | :----------------------------------------: | :------------------------------------------------- |
+| diandian18/react-antd-console | Frontend solution for admin dashboard | <https://template.react-antd-console.site> | <https://github.com/diandian18/react-antd-console> |
+| Rascal-Coder/xpress           |                   -                   |        <https://xpress.ras-cal.cc>         | <https://github.com/Rascal-Coder/xpress>           |
